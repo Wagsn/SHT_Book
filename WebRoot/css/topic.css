@@ -1,0 +1,77 @@
+@charset "UTF-8";
+
+/* topic.html */
+
+/* 板块的头部 */
+.topic-header-wrap {
+	background: #EEEEEE;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+/* 大标题的字体 */
+.font-title {
+  list-style: none;
+  font-weight:bold;
+  font-size:40px;
+}
+/* 板块的内容 */
+#topic-content {
+  padding: 15px;
+  width: 600px;
+}
+
+#reply-list-wrap {
+  float: left;
+  width: 700px;
+  margin-right: 5px;
+}
+
+#reply-list ul li {
+  margin: 0 5px 15px 5px;
+}
+.reply-list-item {
+	background: #EEEEEE;
+  margin: 0 0 15px 0px;
+  overfload: hidden;
+  float: left;
+  width: 100%;
+}
+.r_l_item_tail {
+  width: 100%;
+}
+.reply-usr-info {
+  width: 130px;
+  padding: 10px;
+  text-align: center;
+}
+.replay-content-wrap {
+  width: 550px;
+  display: inline;
+}
+/* 最下面的回复编辑框 */
+.reply-edit-wrap {
+  background: #EEE;
+  margin: 0 0 15px 0px;
+  float: left;
+  width: 100%;
+}
+.reply_head {
+  margin: 0 0 15px 0;
+}
+.reply_edit {
+  margin: 0 0 20px 0;
+  padding: 30px 10px 10px 10px;
+}
+
+.aside-wrap {
+  float: left;
+  width: 295px;
+  min-height: 1000px;
+  background: #EEEEEE;
+}
+
+.tail-info {
+  margin-left: 10px;
+  margin-right: 20px;
+  display: inline;
+}

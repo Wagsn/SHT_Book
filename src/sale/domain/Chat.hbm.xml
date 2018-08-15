@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-8-14 15:41:17 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="sale.domain.Chat" table="SHT_CHAT">
+        <id name="id" type="int">
+            <column name="CHAT_ID" />
+            <generator class="uuid" />
+        </id>
+        <property name="src_id" type="int" insert="false" update="false">
+            <column name="SRC_ID" />
+        </property>
+        <property name="dst_id" type="int" insert="false" update="false">
+            <column name="DST_ID" />
+        </property>
+        <property name="msg" type="java.lang.String">
+            <column name="MSG" />
+        </property>
+        <property name="time" type="java.util.Date">
+            <column name="TIME" sql-type="datetime"/>
+        </property>
+    </class>
+</hibernate-mapping>

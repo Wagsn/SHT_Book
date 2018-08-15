@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- #1 常量 -->
+	<!-- 1.1开发模式 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<!-- 1.2标签主题，简单风格 -->
+	<constant name="struts.ui.theme" value="simple"></constant>
+	
+	<!-- #2 公共项 -->
+	<package name="common" extends="struts-default" namespace="/" >
+		<!-- 使用拦截器一般需要4步： -->
+		
+		<interceptors>
+			<!-- 第一步：注册 -->
+			<!-- <interceptor name="loginInterceptor" class="net.wagsn.crm_teach.interceptor.LoginInterceptor">
+				<param name="excludeMethods">login</param>多个方法，用逗号隔开 
+			</interceptor> -->
+			<!-- 第二步：定义用户自定义的拦截器栈 -->
+			<interceptor-stack name="mystack">
+				<!-- <interceptor-ref name="loginInterceptor"></interceptor-ref> -->
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!--第三步：把自定义的拦截器栈设置为默认拦截器栈  -->
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		
+		<!--第四步：定义全局结果集  -->
+		<!-- <global-results>
+			<result name="login">/WEB-INF/pages/login.jsp</result>
+		</global-results>-->
+		<action name="ui_*_*">
+			<result name="success">/WEB-INF/pages/{1}/{2}.jsp</result><!--/WEB-INF前面的“/”必须写  -->
+		</action>
+		
+		
+	</package>
+	<!--导入其他action配置  -->
+	<include file="/struts/struts-chat.xml"></include>
+</struts>

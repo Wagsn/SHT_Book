@@ -1,0 +1,92 @@
+@CHARSET "UTF-8";
+ 
+/* 共用css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;  /*为元素设定的宽度和高度决定了元素的边框盒。就是说，为元素指定的任何内边距和边框都将在已设定的宽度和高度内进行绘制。通过从已设定的宽度和高度分别减去边框和内边距才能得到内容的宽度和高度。*/
+}
+html, body {
+  height: 100%;
+  display: block;
+  background: #DDD;
+  /* word-wrap: break-word; */  /*允许换行并且对长单词拆分*/
+}
+#wrapper {
+  min-height: 100%; 
+  height: auto !important; 
+  height: 100%;
+  width: 1000px;
+  background: #EEE;
+  margin: auto;
+}
+header, footer {
+  padding: 10px;
+  width: 100%;
+  overflow: hidden;
+  margin: auto;
+}
+article{
+  width: 100%;
+  overflow: hidden;
+  margin: auto;
+}
+fooder {
+  margin: auto;
+  overflow: hidden;
+  margin-top: -120px;
+  display: block;
+}
+header {
+  background: #FFF;
+  min-height: 100%; 
+}
+article {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+}
+footer {
+  height: 60px;
+  margin-top: -60px;
+  background: #1DB0B8;
+}
+.center {
+  width: auto;
+  margin: auto;
+}
+.f_l {
+  float: left
+}
+.f_r {
+  float: right
+}
+/*页面首部*/
+.page_top {
+  padding: 10px;
+  margin-bottom: 10px
+}
+/*卡片--一个具有较浅的阴影效果的卡片*/
+.card {
+  border-radius: 5px;  /* 边框带有弧度 */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+}
+.card {
+  padding: 5px;
+}
+
+/* div .card:hover {
+  background: #FFF;
+  box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);
+} */​
+/*线框--边缘有灰色线条的框体*/
+.line-box {
+  display: block;
+  border: 1px;
+  border-color: #111;
+  margin: 5px;
+  padding: 10px;
+}
+
