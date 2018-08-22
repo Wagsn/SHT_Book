@@ -11,7 +11,7 @@ package test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 
-import sale.dao.ChatDapImp;
+import sale.dao.ChatDaoImp;
 
 /**
  * @class DaoTest
@@ -23,6 +23,6 @@ import sale.dao.ChatDapImp;
  */
 public class DaoTest {
 	public static void main(String[] args) {
-		System.out.println(JSONArray.toJSONString(new ChatDapImp().findAllById(1, 2)));
+		System.out.println(JSONArray.toJSONString(new ChatDaoImp().findAllById(1, 2)));
 	}
 }

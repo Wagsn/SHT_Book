@@ -8,8 +8,6 @@
 	<package name="chat" extends="common" namespace="/">
 		<action name="chat_*" class="sale.action.ChatAction"
 			method="{1}">
-			<!-- 员工编辑成功 -->
-			<!-- <result name="edit" type="redirectAction">staff_findAll</result> -->
 		</action>
 	</package>
 

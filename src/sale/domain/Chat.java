@@ -11,6 +11,7 @@ package sale.domain;
 import java.util.Date;
 
 /**
+ * 私信实体类，TODO 增加字段 chat_type 以实现红包链接等？？ chat_type 将msg通过约定的格式进行解析
  * @class Chat
  * @package sale.domain
  * @project SHT_Book
@@ -49,14 +50,14 @@ public class Chat {
 	
 	/**
 	 * 全参构造器
-	 * @param usr_id
+	 * @param id
 	 * @param src_id
 	 * @param dst_id
 	 * @param msg
 	 * @param time
 	 */
-	public Chat(int usr_id, int src_id, int dst_id, String msg, Date time) {
-		this.id = usr_id;
+	public Chat(int id, int src_id, int dst_id, String msg, Date time) {
+		this.id = id;
 		this.src_id = src_id;
 		this.dst_id = dst_id;
 		this.msg = msg;

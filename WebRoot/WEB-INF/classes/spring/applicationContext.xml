@@ -56,4 +56,5 @@
 	</aop:config>
 	<!-- 4、导入其他配置文件 快速复制一行的快捷键 alt+crl+箭头 -->
 	<import resource="applicationContext-chat.xml"/>
+	<import resource="applicationContext-friend-relation.xml"/>
 </beans>

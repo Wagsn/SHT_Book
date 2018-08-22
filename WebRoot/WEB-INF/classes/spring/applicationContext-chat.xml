@@ -6,11 +6,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-contex.xsd">
 	
-	<bean id="chatDao" class="sale.dao.ChatDapImp">
+	<bean id="chatDao" class="sale.dao.ChatDaoImp">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	
 	<bean id="chatService" class="sale.service.ChatServiceImp">
 		<property name="chatDao" ref="chatDao"></property>
+		<property name="friendRelationDao" ref="friendRelationDao"></property>
 	</bean>
 </beans>

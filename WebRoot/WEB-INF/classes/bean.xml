@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd
+      http://www.springframework.org/schema/aop
+      http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/tx
+      http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	
+	<!-- 配置注解自动扫描的包 -->
+   <context:component-scan base-package="com.elgin.spring.hibernate"/>
+	
+	
+	<!--  <context:property-placeholder location="classpath*:/c3p0db.properties"/>-->
+	<!-- 导入资源文件 -->
+	<context:property-placeholder location="classpath:db.properties"/>
+	
+	<!-- 讲Hibernate中配置数据库放到Spring中配置 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driverClass}"/>
+		<property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 最小连接数 -->
+        <property name="minPoolSize" value="10"/>
+        <!-- 最大连接数 -->
+        <property name="maxPoolSize" value="100"/>
+        <!-- 初始化连接数 -->
+        <property name="initialPoolSize" value="20"/>
+        <!-- 存活时间 -->
+        <property name="maxIdleTime" value="10"></property>
+	</bean>
+	
+	<!-- 配置sessionFactory  通过Spring提供的LocalSessionFactoryBean-->
+	
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" >
+		<!-- 配置依赖的dataSource -->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>book.entity.BookGallery</value>
+				<value>book.entity.User</value>
+				<value>book.entity.Book</value>
+				<value>book.entity.Type</value>
+				<value>book.entity.FatherType</value>
+			</list>
+		</property>
+	</bean>
+
+	 <!-- 配置 Spring 的声明式事物 -->
+   <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+   </bean>
+	<!-- 配置事务增强 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="false"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- AOP配置 -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut expression="execution(* book.dao.*.*(..))" id="pt"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt"/>
+	</aop:config>
+	
+   
+	<!-- spring中配置struts2 -->
+	
+	<!-- 数据对应表bean -->
+	<bean id="user" class="book.entity.User" scope="prototype"/>
+	<bean id="bookGallery" class="book.entity.BookGallery" scope="prototype"/>
+	<bean id="fatherType" class="book.entity.FatherType" scope="prototype"/>
+	<bean id="type" class="book.entity.Type" scope="prototype"/>
+	<bean id="book" class="book.entity.Book" scope="prototype"/>
+	<bean id="order" class="book.entity.Order" scope="prototype"/>
+	
+	
+	
+	<!-- 数据操作bean -->
+	<bean id="userDaoImpl" class="book.dao.UserDaoImpl">
+		<constructor-arg name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="typeDaoImpl" class="book.dao.TypeDaoImpl">
+		<constructor-arg name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="fatherTypeDaoImpl" class="book.dao.FatherTypeDaoImpl" >
+		<constructor-arg name="sessionFactory" ref="sessionFactory"></constructor-arg>
+	</bean>
+	<bean id="bookGalleryDaoImpl" class="book.dao.BookGalleryDaoImpl" >
+		<constructor-arg name="sessionFactory" ref="sessionFactory"></constructor-arg>
+	</bean>
+	<bean id="bookDaoImpl" class="book.dao.BookDaoImpl" >
+		<constructor-arg name="sessionFactory" ref="sessionFactory"></constructor-arg>
+	</bean>
+	
+	<!-- 生产对象操作工厂配置 -->
+	<bean id="bookDBFactory" class="book.dao.BookDBFactory">
+		<property name="bookDao" ref="bookDaoImpl"/>
+		<property name="bookGalleryDao" ref="bookGalleryDaoImpl"/>
+		<property name="fatherTypeDao" ref="fatherTypeDaoImpl" />
+		<property name="typeDao" ref="typeDaoImpl" />
+		<property name="userDao" ref="userDaoImpl" />
+	</bean>
+</beans>

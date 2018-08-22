@@ -19,6 +19,8 @@ import java.io.InputStreamReader;
 
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 文件工具类，不可继承
  * 
@@ -113,6 +115,15 @@ public final class FileUtil {
 	public static void print(String content, String msg) {
 		System.out.println("--Info-> " + msg);
 		System.out.println(content);
+	}
+	
+	/**
+	 * 将文件路径下的数据解析成JSONObject
+	 * @param path
+	 * @return
+	 */
+	public static JSONObject loadToJSON(String path) {
+		return JSONObject.parseObject(load(path).toString());
 	}
 
 	/**

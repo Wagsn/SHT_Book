@@ -4,9 +4,13 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
+	<!-- 封凡组 -->
+	<!-- 告知Struts2运行时使用Spring来创建对象 -->
+	<!-- <constant name="struts.objectFactory" value="spring" /> -->
+	
 	<!-- #1 常量 -->
 	<!-- 1.1开发模式 -->
-	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.devMode" value="false"></constant>
 	<!-- 1.2标签主题，简单风格 -->
 	<constant name="struts.ui.theme" value="simple"></constant>
 	
@@ -40,4 +44,5 @@
 	</package>
 	<!--导入其他action配置  -->
 	<include file="/struts/struts-chat.xml"></include>
+	<include file="/struts/struts-relation.xml"></include>
 </struts>

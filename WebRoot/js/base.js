@@ -148,3 +148,9 @@ var localData ={
 		}
 	}
 }
+// 页面滚动,不增加历史
+function replaceHash(hash) {
+	return location.replace(
+		'#' + hash.replace(/^#/, '')
+	);
+}
