@@ -113,7 +113,10 @@ function user_info(id) {
         }
     });
 }
-// 解析url成jso
+/**
+ * 解析url成jso
+ * @param {String} url 
+ */
 function parseQueryString(url){
     var str = url.split('?')[1], str2 = str.split('#')[0],
         items = str2.split('&'),

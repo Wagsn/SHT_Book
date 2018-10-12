@@ -50,7 +50,6 @@ public class ChatAction extends ActionSupport {
 		JSONObject reqdata =JSONReader.receivePost(ServletActionContext.getRequest());
 		System.out.println("--request-> "+reqdata.toJSONString());
 		
-		
 		log.methodEnd();
 		return NONE;
 	}

@@ -11,61 +11,89 @@
 <script type="text/javascript" src="./assets/js//jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="./js/base.js"></script>
 <style type="text/css">
-/* 用于对card进行布局包装，以确保card有足够的此村尺寸进行显示 */
+.strong{ font-weight:bold}
+.txt-center {
+	text-align: center;
+}
+.full {
+	min-width: 100%;
+	min-height: 100%;
+}
+/* <用于对card进行布局包装，以确保card有足够的此村尺寸进行显示> */
 .card-wrap {
 	background: #EEE;
-	margin: 0 5px 10px 5px;	
+	margin: 0 0 10px 0;	
+	overflow: hidden;  /* 消除子元素浮动对父元素的影响 */
+}
+.head-wrap {
+	float: left;
+	width: 100px;
+	height: 100px;
+}
+.head {
+	width: 100px;
+	height: 100px;
+	background: #EEE;
+	padding: 5px;
+}
+.content-wrap {
+	float: left;
+	width: 900px;
+	margin: auto 0 auto 0;
+	padding: 5px;
+}
+.content-head-wrap {
+	width: 100%;
+	padding: 5px;
+	margin-bottom: 10px;
+	overflow: hidden;  /* 消除子元素浮动对父元素的影响 */
+}
+.content-main-wrap {
+	width: 100%;
+	padding: 5px;
+	word-break: break-all;  /* 多行换行 */
+	height: 2em;  /* 最多两行 */
 }
 </style>
-</head>
-<body>
-
-<div id="wrapper">
-<header>
-	<div class="card">
-		<h1>关系列表</h1>
-	</div>
-</header>
 <script type="text/javascript">
 var page_data={
-	relation_usr_id: localData.load("relation_usr_id")|1,
-	usr_id: localData.load("relation_usr_id")|1
+	rel_usr_id: parseQueryString(location.href).relation_usr_id|1,
+	usr_id: localData.load("usr_id")|parseQueryString(location.href).relation_usr_id|1,
 };
 /* <页面跳转> */
 function jumpToChat(e){
 	console.log(e);
 	let data =eval('('+$(e).attr("data-field")+')');
-	console.log("fri_id: ", data.fri_id)
-	location.href='ui_chat_chat?src_id='+page_data.usr_id+'&dst_id='+ data.fri_id;
+	console.log("fri_id: ", data.fri_id);
+	location.href='ui_chat_chat?src_id='+page_data.rel_usr_id+'&dst_id='+ data.fri_id;
 }
 /* <刷新关系列表> */
 function refresh_relation_list(data){
 	console.log("--params-> ", data);
 	let relationlist = $("#relation-list");
 	relationlist.html(""); /* 清空原有列表项 */
-	for (const item of data) {
-		relationlist.append('<li class="card card-wrap" onclick="jumpToChat(this)" data-field="{\'fri_id\': '+item.fri_id+'}"><span>用户['+item.fri_id+']</span><span class="f_r">['+item.rel_type+']</span></li>');
+	for (const it of data) {
+		let item = $(`<li class="card-wrap" onclick="jumpToChat(this)" data-field="{'fri_id': `+it.fri_id+`}"></div>`);
+		item.appendTo(relationlist);
+		item.append(`<div class="head-wrap"><img class="head" src="./img/user/default/head.jpg" alt="头像"/></div>`);
+		item.append('<div class="content-wrap"><span class="strong">'+it.fri_id+'</span><span class="f_r">['+it.rel_type+']</span></div>');
 	}
 }
-/* <从服务器用Ajax同步加载数据， 返回数据数组> */
+/* <异步加载, 并刷新列表> */
 function load_relations(){
 	$.ajax({  // 
 		type : "post", /* 提交方式 */
-		async: false,  // 同步加载
 		timeout: 1000,
 		url : "relation_findAllById", /* servlet 或者 url index.jsp */
 		data : relation_reqdata(),
 		contentType : "application/json;charset=utf-8", /* 采用json格式数据 */
 		dateType : "json", /* 数据类型为json */
-		success : function(result) { /* 请求成功时被调用，result为服务器传来的数据 */
+		success : (result) => { /* 请求成功时被调用，result为服务器传来的数据 */
 			resdata = eval(result);  
 			console.log("--respones data-> ", resdata);  // 页面暂存数据，全局数据能不使用则不使用
-			// 数据转换
-			let list_data =data_convert(resdata);
-			console.log(list_data);
-			page_data.relations =list_data;
+			refresh_relation_list(data_convert(resdata));
 		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) { /* 请求错误时调用，errorThrown为错误数据 */
+		error : (XMLHttpRequest, textStatus, errorThrown) => { /* 请求错误时调用，errorThrown为错误数据 */
 			alert("失败" + errorThrown);
 		}
 	});
@@ -77,7 +105,7 @@ function data_convert(resdata) {
 	let list_data = new Map();
 	for (it of resdata) {
 		// 关注 1
-		if (it.src_id==page_data.usr_id) {
+		if (it.src_id==page_data.rel_usr_id) {
 			if (list_data.get(it.dst_id)) {
 				// 朋友3
 				list_data.set(it.dst_id, {
@@ -92,7 +120,7 @@ function data_convert(resdata) {
 			}
 		}
 		// 粉丝 2
-		if (it.dst_id==page_data.usr_id) {
+		if (it.dst_id==page_data.rel_usr_id) {
 			if (list_data.get(it.src_id)) {
 				// 朋友3
 				list_data.set(it.src_id, {
@@ -107,32 +135,50 @@ function data_convert(resdata) {
 			}
 		}
 	}
+	console.log("--list data-> ", list_data.values());
 	return list_data.values();
 }
-
 /* <关系列表请求数据> */
 function relation_reqdata(){
-	let reqdata = '{'+'"usr_id":'+page_data.usr_id+'}';
+	let reqdata = {"usr_id": page_data.rel_usr_id};
 	console.log("--relation request-> "+reqdata);
-	return reqdata;
+	return JSON.stringify(reqdata);
 }
-/* <产生随机数据> */
-function random_data(){
-	let data =[];
-	// 相当于通信接口
-	for (let i=0; i< 10; i++) {
-		let item ={
-			fri_id: (i+2),
-			fri_name: (i+2),
-			fri_img_url: "#"
-		};
-		data.push(item);
+function linkToNotice(){
+	location.replace('ui_chat_notice?notice_usr_id='+page_data.rel_usr_id);
+}
+/* <界面适配 ul: list view, li: list item, map: id|class to field, data: list data > */
+function adapter(ul, li, maps, data) {
+	let eul =$('<ul></ul>');
+	let eli =$('<li></li>');
+	// maps : [{ class: 'title', field: 'title' }, { class: 'content', field: 'content' }]
+	// data : [{title: '', content: ''}, {title: '', content: ''}]
+	/* <遍历填充数据> */
+	for (const it of data) {
+		for (const map of maps) {
+			$('.'+map.class).html(it[map.field]);  // 确保是class叶子节点
+		}
 	}
-	return data;
 }
 </script>
-<article>
+</head>
+<body>
 
+<!-- 顶部导航 -->
+<div id="top-nav" class="top-nav card"> 
+	<a id="home-link" href="./"><span>首页</span><span class="en">Home</span></a>
+	<a id="back-link" href="javascript:history.back()"><span>返回</span><span class="en">Back</span></a>
+	<a id="notice-link" href="javascript:linkToNotice()"><span>通知</span><span class="en">Notice</span></a>
+	<a id="relation-link" href="javascript:void(0)"><span>通讯录</span><span class="en">Relation</span></a>
+</div>
+
+<div id="wrapper">
+
+<header class="card">
+	<h1>关系列表</h1>
+</header>
+
+<article>
 <div class="relation-list-wrap">
 <ul id="relation-list" class="relation-list">
 <li class="card card-wrap">
@@ -160,7 +206,7 @@ function random_data(){
 	</div>
 </footer>
 <script type="text/javascript">
-refresh_relation_list(load_relations());
+load_relations();
 </script>
 </body>
 

@@ -47,4 +47,10 @@ public class RelationAction extends BaseAction {
 		});
 	}
 	
+	public String follow() throws UnsupportedEncodingException, IOException {
+		return handle((reqdata)->{
+			friendRelationService.follow(reqdata.getIntValue("src_id"), reqdata.getIntValue("dst_id"));
+			return "{\"ret_code\": 0}";  // 响应数据 res data
+		});
+	}
 }

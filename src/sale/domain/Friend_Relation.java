@@ -59,4 +59,12 @@ public class Friend_Relation {
 		this.rel_id = rel_id;
 	}
 	
+	public Friend_Relation() { }
+	
+	public Friend_Relation(int id, int src_id, int dst_id, int rel_id) {
+		this.id = id;
+		this.src_id = src_id;
+		this.dst_id = dst_id;
+		this.rel_id = rel_id;
+	}
 }

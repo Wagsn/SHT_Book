@@ -11,18 +11,20 @@
 <script type="text/javascript" src="./assets/js//jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="./js/base.js"></script>
 <script type="text/javascript">
+/* <跳转到私聊界面> */
 function jumpToChat(){
 	location.href=`ui_chat_chat?src_id=${$("#src_id").val()}&dst_id=${$("#dst_id").val()}`;
 }
+/* <跳转到通知界面> */
 function jumpToNotice(){
 	console.log("--usr_id--> ", new Number($("#usr_id1").val()));
 	localData.save("usr_id", new Number($("#usr_id1").val()));
-	location.href=`ui_chat_notice`;
+	location.href=`ui_chat_notice?notice_usr_id=${$("#usr_id1").val()}`;
 }
-
+/* <跳转到通讯录界面> */
 function jumToRelation(e) {
 	localData.save("relation_usr_id", new Number($("#usr_id2").val()));
-	location.href=`ui_chat_relation`;
+	location.href=`ui_chat_relation?relation_usr_id=${$("#usr_id2").val()}`;
 }
 
 </script>

@@ -294,15 +294,13 @@ public final class FileUtil {
 	public static boolean check(String path) {
 		return false;
 	}
-
+	
 	/**
-	 * 创建路径为path的文件，默认以覆盖模式创建，
-	 * 
-	 * @see util.FileUtil#create(String, boolean) create(path, over)
-	 * @param path
+	 * 创建文件
+	 * @param file
+	 * @return
 	 */
-	public static boolean create(String path) {
-		File file = new File(path);
+	public static boolean create(File file) {
 		if (file.exists()) {
 			file.delete();
 		}
@@ -316,6 +314,16 @@ public final class FileUtil {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	/**
+	 * 创建路径为path的文件，默认以覆盖模式创建，
+	 * 
+	 * @see util.FileUtil#create(String, boolean) create(path, over)
+	 * @param path
+	 */
+	public static boolean create(String path) {
+		return create(new File(path));
 	}
 
 	/**

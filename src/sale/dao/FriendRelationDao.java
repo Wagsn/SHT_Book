@@ -29,9 +29,10 @@ public interface FriendRelationDao {
 	public List<Friend_Relation> findAllRelationById(int src_id);
 	
 	/**
-	 * 找到所有有关系的关系
+	 * 关注其他用户
 	 * @param src_id
-	 * @return
+	 * @param dst_id
+	 * @return 0 成功, 1 已经关注的不能再次关注
 	 */
-	public List<Friend_Relation> findAllById(int src_id);
+	public int follow(int src_id, int dst_id);
 }

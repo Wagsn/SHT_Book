@@ -27,4 +27,12 @@ public interface FriendRelationService {
 	 * @return
 	 */
 	public List<Friend_Relation> findAllById(int src_id);
+	
+	/**
+	 * 关注
+	 * @param src_id 关注人
+	 * @param dst_id 被关注人
+	 * @return
+	 */
+	public int follow(int src_id, int dst_id);
 }

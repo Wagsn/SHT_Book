@@ -60,26 +60,26 @@ public class FriendRelationDaoImp implements FriendRelationDao {
 		Query query2 = session.createQuery(hql2); 
 		query2.setParameter(0, src_id);
 		result.addAll(query2.list());
-		
 		// 将两个人之间的关系去重
-		
 		System.out.println("--select data-> "+JSONArray.toJSONString(result));
 		
 		log.methodEnd();
 		return result;
 	}
-	/* (non-Javadoc)
-	 * @see sale.dao.FriendRelationDao#findAllRelationById(int)
+	/**
+	 * 关注
+	 * @see sale.dao.FriendRelationDao#follow(int, int)
 	 */
 	@Override
-	public List<Friend_Relation> findAllById(int src_id) {
-		// TODO Auto-generated method stub
+	public int follow(int src_id, int dst_id) {
 		log.methodStart();
 		
 		Session session = sessionFactory.getCurrentSession();
-		
+		// 关注人 
+		session.save(new Friend_Relation(0, src_id, dst_id, 1));
+
 		log.methodEnd();
-		return null;
+		return 0;
 	}
 
 }

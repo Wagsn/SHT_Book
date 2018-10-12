@@ -45,4 +45,13 @@ public class FriendRelationServiceImp implements FriendRelationService {
 		return friendRelationDao.findAllRelationById(src_id);
 	}
 
+
+	/* (non-Javadoc)
+	 * @see sale.service.FriendRelationService#follow(int, int)
+	 */
+	@Override
+	public int follow(int src_id, int dst_id) {
+		return friendRelationDao.follow(src_id, dst_id);
+	}
+
 }

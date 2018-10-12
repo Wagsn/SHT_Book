@@ -7,7 +7,7 @@
 	<!-- 封凡组 -->
 	<!-- 告知Struts2运行时使用Spring来创建对象 -->
 	<!-- <constant name="struts.objectFactory" value="spring" /> -->
-	
+	<constant name="struts.action.excludePattern" value="/UploadServlet"/>
 	<!-- #1 常量 -->
 	<!-- 1.1开发模式 -->
 	<constant name="struts.devMode" value="false"></constant>
@@ -40,6 +40,7 @@
 			<result name="success">/WEB-INF/pages/{1}/{2}.jsp</result><!--/WEB-INF前面的“/”必须写  -->
 		</action>
 		
+		<!-- <action name="UploadServlet"  class="sale.servalet.UploadServlet"></action> -->
 		
 	</package>
 	<!--导入其他action配置  -->
